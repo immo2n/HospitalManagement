@@ -1,0 +1,14 @@
+{
+    "files.associations": {
+        "database.h": "c",
+        "unistd.h": "c",
+        "filepaths.h": "c",
+        "stdio.h": "c",
+        "helper.h": "c",
+        "ctype.h": "c",
+        "string.h": "c"
+    },
+    "cSpell.words": [
+        "cgpa"
+    ]
+}
