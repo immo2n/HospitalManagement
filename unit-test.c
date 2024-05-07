@@ -9,11 +9,9 @@ int main()
         return 0;
     }
 
+    FILE *testDb = openDocument("test2");
 
-    openDocument("test");
-    openDocument("test2");
-    openDocument("test3");
-
+    insert(testDb, "Joy guru2!");
 
 
     closeConnection();
