@@ -1,45 +1,36 @@
 #include <stdio.h>
 #include "libs/util/fontStyles.h"
 #include "libs/database/database.h"
+#include "libs/util/keySets.h"
 #include "modules/setup.h"
 #include "modules/auth.h"
 
 int main(){
     system("cls");
-    if(!openConnection()){
-        printf("FATAL ERROR: Could not open database!\n");
-        return 0;
-    }
-    //Databases initiate
-    Database appState = openDocument("AppState");
-    char *state = fetch(&appState, "setup").value;
-
-    
-    //char *username = fetch(&appState, "admin_username").value;
-    //char *password = fetch(&appState, "admin_password").value;
-
-    if(strcmp(state, "done") == 0){
-        //Auth module
-        int done = auth(&appState);
-        if(done){
-            printColoredBold(ANSI_COLOR_GREEN, "Login successfully!");
-            printBold("Main homepage will be here!");
+    DataCell setupState = get(DB_APP_STATE, KEY_SETUP);
+    if(strcmp(setupState.value, PREFIX_DONE) == 0){
+        //Setup done, continue to auth
+        if(auth()){
+            printColoredBold(ANSI_COLOR_GREEN, "Logged in successfully!");
+            sleep(1);
+        }
+        else {
+            printColoredBold(ANSI_COLOR_RED, "Login failed!");
+            sleep(1);
+            main();
         }
     }
     else {
-        int done = setup(&appState);
-        if(done){
+        //Need to setup first
+        if(setup()){
             printBold("Setup done!");
-            insert(&appState, prepareInsert("setup", "done"));
+            put(DB_APP_STATE, prepareInsert(KEY_SETUP, PREFIX_DONE));
         }
         else {
             printColoredBold(ANSI_COLOR_RED, "Setup failed!");
         }
-        //Restart page
         sleep(1);
-        closeConnection();
         main();
     }
-    closeConnection();
     return 0;
 }

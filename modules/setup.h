@@ -4,7 +4,7 @@
 
 char adminName[50], adminPassword[100];
 
-int setup(Database *stateDatabase){
+int setup(){
     system("cls");
     printColoredBold(ANSI_COLOR_GREEN, "\t\t\t\tWELCOME HOSPITAL MANAGEMENT\n\n");
     printColored(ANSI_COLOR_CYAN, "\t\t\t\t Let's setup admin account\n\n\n");
@@ -13,16 +13,16 @@ int setup(Database *stateDatabase){
     if(strlen(adminName) < 5){
         printColored(ANSI_COLOR_RED, "Invalid name for admin!");
         sleep(1);
-        setup(stateDatabase);
+        setup();
     }
     printColored(ANSI_COLOR_BLUE, "Set admin password(must be 4 or more characters): ");
     scanf("%s", adminPassword);
     if(strlen(adminPassword) < 4){
         printColored(ANSI_COLOR_RED, "Invalid password for admin!");
         sleep(1);
-        setup(stateDatabase);
+        setup();
     }
-    insert(stateDatabase, prepareInsert("admin_username", adminName));
-    insert(stateDatabase, prepareInsert("admin_password", adminPassword));
+    put(DB_APP_STATE, prepareInsert(KEY_ADMIN_USERNAME, adminName));
+    put(DB_APP_STATE, prepareInsert(KEY_ADMIN_PASSWORD, adminPassword));
     return 1;
 }

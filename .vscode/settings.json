@@ -9,7 +9,9 @@
         "string.h": "c",
         "type_traits": "c",
         "fontstyles.h": "c",
-        "setup.h": "c"
+        "setup.h": "c",
+        "auth.h": "c",
+        "stdlib.h": "c"
     },
     "cSpell.words": [
         "cgpa",

@@ -89,8 +89,6 @@ DataCell fetch(Database *database, char *key){
         }
         // Remove newline from value - only for store manner
         stored_value[strcspn(stored_value, "\n")] = '\0';
-        printf("K: %s\n K2: %s\n", key, stored_key);
-
         if (strcmp(key, stored_key) == 0) { //check for key match
             strcpy(dataCell.value, stored_value);
             return dataCell;
@@ -159,7 +157,6 @@ int delete(Database *database, char *key) {
     return 1;
 }
 
-
 int exists(Database *database, char *key){
     if(NULL == database->file) return 0;
     char line[MAX_KEY_LENGTH + MAX_VALUE_LENGTH + 2];
@@ -192,7 +189,6 @@ int insert(Database *database, DataCell dataCell){
     }
     return -1;
 }
-
 
 FILE *isOpened(char *docPath) {
     OpenedDocs *check = openedDoc;
@@ -237,7 +233,7 @@ Database openDocument(char *documentName) {
 
     cacheDocument(file, &database, filepath);
 
-    insert(&manualDatabase, prepareInsert(manualDatabaseName, filepath));
+    insert(&manualDatabase, prepareInsert(documentName, filepath));
     strcpy(database.message, "All okay while opening database document");
     strcpy(database.status, "OK");
     database.file = file;
@@ -260,5 +256,33 @@ int closeConnection() {
         free(temp->documentPath);
         free(temp);
     }
+    return 1;
+}
+
+DataCell get(char *documentName, char *key){
+    DataCell dataCell;
+    strcpy(dataCell.key, key);
+    if(!openConnection()){
+        printf("FATAL ERROR: Could not open database!\n");
+        return dataCell;
+    }
+    Database db = openDocument(documentName);
+    if(strcmp(db.status, "OK") == 0){
+        dataCell = fetch(&db, key);
+    }
+    closeConnection();
+    return dataCell;
+}
+
+int put(char *documentName, DataCell dataCell){
+    if(!openConnection()){
+        printf("FATAL ERROR: Could not open database!\n");
+        return 0;
+    }
+    Database db = openDocument(documentName);
+    if(strcmp(db.status, "OK") == 0){
+        insert(&db, dataCell);
+    }
+    closeConnection();
     return 1;
 }
