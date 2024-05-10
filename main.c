@@ -2,6 +2,7 @@
 #include "libs/util/fontStyles.h"
 #include "libs/database/database.h"
 #include "modules/setup.h"
+#include "modules/auth.h"
 
 int main(){
     system("cls");
@@ -12,9 +13,18 @@ int main(){
     //Databases initiate
     Database appState = openDocument("AppState");
     char *state = fetch(&appState, "setup").value;
+
+    
+    //char *username = fetch(&appState, "admin_username").value;
+    //char *password = fetch(&appState, "admin_password").value;
+
     if(strcmp(state, "done") == 0){
-        //Go to main module
-        printBold("Main homepage will be here!");
+        //Auth module
+        int done = auth(&appState);
+        if(done){
+            printColoredBold(ANSI_COLOR_GREEN, "Login successfully!");
+            printBold("Main homepage will be here!");
+        }
     }
     else {
         int done = setup(&appState);

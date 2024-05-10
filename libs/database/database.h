@@ -70,7 +70,6 @@ void cacheDocument(FILE *file, Database *database, char *filepath){
 DataCell fetch(Database *database, char *key){
     DataCell dataCell;
     strcpy(dataCell.key, key);
-    if(NULL == database->file) dataCell;
     /* Here we are doing Linear Search, not efficient at all...
     we must do something about it in future! */
     //Prepare line for key, value, = (delimeter) and \n
@@ -90,6 +89,8 @@ DataCell fetch(Database *database, char *key){
         }
         // Remove newline from value - only for store manner
         stored_value[strcspn(stored_value, "\n")] = '\0';
+        printf("K: %s\n K2: %s\n", key, stored_key);
+
         if (strcmp(key, stored_key) == 0) { //check for key match
             strcpy(dataCell.value, stored_value);
             return dataCell;
