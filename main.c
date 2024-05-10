@@ -4,6 +4,7 @@
 #include "libs/util/keySets.h"
 #include "modules/setup.h"
 #include "modules/auth.h"
+#include "modules/home.h"
 
 int main(){
     system("cls");
@@ -11,8 +12,9 @@ int main(){
     if(strcmp(setupState.value, PREFIX_DONE) == 0){
         //Setup done, continue to auth
         if(auth()){
-            printColoredBold(ANSI_COLOR_GREEN, "Logged in successfully!");
+            printColoredBold(ANSI_COLOR_GREEN, "\nLogged in successfully!");
             sleep(1);
+            home();
         }
         else {
             printColoredBold(ANSI_COLOR_RED, "Login failed!");

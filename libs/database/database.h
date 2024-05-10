@@ -1,3 +1,12 @@
+/*
+* Written by: Md. Monoarul Islam Moon
+* Created on: 11-5-2024
+* Its just a prove of concept, not a real database system.
+* It's a simple key-value store system based on FILE
+* Use at your own risk!
+* And an advice: "NEVER WRITE YOUR OWN DATABASE SYSTEM FOR PRODUCTION USE!"
+*/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
