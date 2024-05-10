@@ -6,7 +6,7 @@ char adminName[50], adminPassword[100];
 
 int setup(){
     system("cls");
-    printColoredBold(ANSI_COLOR_GREEN, "\t\t\t\tWELCOME HOSPITAL MANAGEMENT\n\n");
+    printColoredBold(ANSI_COLOR_GREEN, "\t\t\t\tWELCOME TO HOSPITAL MANAGEMENT\n\n");
     printColored(ANSI_COLOR_CYAN, "\t\t\t\t Let's setup admin account\n\n\n");
     printColored(ANSI_COLOR_BLUE, "Set admin username(e.g Admin): ");
     scanf("%s", adminName);

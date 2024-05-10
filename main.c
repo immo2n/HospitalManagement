@@ -17,9 +17,8 @@ int main(){
             home();
         }
         else {
-            printColoredBold(ANSI_COLOR_RED, "Login failed!");
+            printColoredBold(ANSI_COLOR_RED, "Login failed! Exiting...");
             sleep(1);
-            main();
         }
     }
     else {

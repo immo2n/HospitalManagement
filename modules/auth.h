@@ -9,8 +9,8 @@ int maxTries = 3;
 int auth(){
     system("cls");
     tries++;
-    printColoredBold(ANSI_COLOR_GREEN, "\t\t\t\tWELCOME HOSPITAL MANAGEMENT\n\n");
-    printColored(ANSI_COLOR_CYAN, "\t\t\t\t    Login to the system\n\n\n");
+    printColoredBold(ANSI_COLOR_GREEN, "\t\t\t\tWELCOME TO HOSPITAL MANAGEMENT\n\n");
+    printColored(ANSI_COLOR_CYAN, "\t\t\t\t      Login to the system\n\n\n");
     printColored(ANSI_COLOR_BLUE, "Enter admin username: ");
     scanf("%s", adminName);
     if(strlen(adminName) < 5){
@@ -33,11 +33,13 @@ int auth(){
         return 1;
     }
     else {
-        printColored(ANSI_COLOR_RED, "Invalid credentials!");
         if(maxTries == tries){
-            printColored(ANSI_COLOR_RED, "Maximum tries reached!");
+            printColored(ANSI_COLOR_YELLOW, "Invalid credentials! Maximum tries reached!\n");
             sleep(1);
             return 0;
+        }
+        else {
+            printColored(ANSI_COLOR_RED, "Invalid credentials!\n");
         }
         sleep(1);
         auth();

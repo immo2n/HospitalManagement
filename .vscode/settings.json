@@ -11,7 +11,9 @@
         "fontstyles.h": "c",
         "setup.h": "c",
         "auth.h": "c",
-        "stdlib.h": "c"
+        "stdlib.h": "c",
+        "mainmenu.h": "c",
+        "home.h": "c"
     },
     "cSpell.words": [
         "cgpa",
