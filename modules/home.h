@@ -26,14 +26,19 @@ void home(){
         renderOptions(selected);
         input = getch();
         switch (input) {
+            case 'W':
+            case 'w':
             case 72: //Up
                 if (selected > 1) selected--;
                 else selected = 6;
                 break;
+            case 'S':
+            case 's':
             case 80: //Down
                 if (selected < MAIN_MENU_OPTIONS) selected++;
                 else selected = 1;
                 break;
+            case 32:
             case '\r': //Enter key
                 switch (selected) {
                     case 6:

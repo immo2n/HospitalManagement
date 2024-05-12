@@ -111,7 +111,6 @@ DataCell fetch(Database *database, char *key){
     return dataCell;
 }
 
-
 int delete(Database *database, char *key) {
     if (database->file == NULL) return -1;
 
