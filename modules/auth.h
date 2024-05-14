@@ -6,11 +6,11 @@ char adminName[50], adminPassword[100];
 int tries = 0;
 int maxTries = 3;
 
-int auth(){
+int auth(int newCall){
     //Reset values
     strcpy(adminName, "");
     strcpy(adminPassword, "");
-    tries = 0;
+    if(newCall) tries = 0;
     system("cls");
     if(maxTries == tries){
         printColored(ANSI_COLOR_YELLOW, "Invalid credentials! Maximum tries reached!\n");
@@ -24,7 +24,7 @@ int auth(){
     if(strlen(adminName) < 5){
         printColored(ANSI_COLOR_RED, "Invalid name for admin!");
         sleep(1);
-        auth();
+        auth(0);
     }
     else {
         printColored(ANSI_COLOR_BLUE, "Enter admin password: ");
@@ -32,7 +32,7 @@ int auth(){
         if(strlen(adminPassword) < 4){
             printColored(ANSI_COLOR_RED, "Invalid password for admin!");
             sleep(1);
-            auth();
+            auth(0);
         }
         else {
             DataCell username = get(DB_APP_STATE, KEY_ADMIN_USERNAME);
@@ -45,8 +45,7 @@ int auth(){
                 printColored(ANSI_COLOR_RED, "Invalid credentials!\n");
                 tries++;
                 sleep(1);
-                auth();
-                exit(0);
+                auth(0);
             }
         }
     }

@@ -11,7 +11,7 @@ int main(){
     DataCell setupState = get(DB_APP_STATE, KEY_SETUP);
     if(strcmp(setupState.value, PREFIX_DONE) == 0){
         //Setup done, continue to auth
-        if(auth()){
+        if(auth(1)){
             printColoredBold(ANSI_COLOR_GREEN, "\nLogged in successfully!");
             sleep(1);
             home();
