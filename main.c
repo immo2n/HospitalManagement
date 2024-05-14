@@ -19,6 +19,7 @@ int main(){
         else {
             printColoredBold(ANSI_COLOR_RED, "Login failed! Exiting...");
             sleep(1);
+            exit(0);
         }
     }
     else {

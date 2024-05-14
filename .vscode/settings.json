@@ -13,7 +13,9 @@
         "auth.h": "c",
         "stdlib.h": "c",
         "mainmenu.h": "c",
-        "home.h": "c"
+        "home.h": "c",
+        "addpatient.h": "c",
+        "conio.h": "c"
     },
     "cSpell.words": [
         "cgpa",

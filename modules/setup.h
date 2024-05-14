@@ -5,6 +5,7 @@
 char adminName[50], adminPassword[100];
 
 int setup(){
+    int proceed = 0;
     system("cls");
     printColoredBold(ANSI_COLOR_GREEN, "\t\t\t\tWELCOME TO HOSPITAL MANAGEMENT\n\n");
     printColored(ANSI_COLOR_CYAN, "\t\t\t\t Let's setup admin account\n\n\n");
@@ -15,6 +16,7 @@ int setup(){
         sleep(1);
         setup();
     }
+    proceed++;
     printColored(ANSI_COLOR_BLUE, "Set admin password(must be 4 or more characters): ");
     scanf("%s", adminPassword);
     if(strlen(adminPassword) < 4){
@@ -22,6 +24,7 @@ int setup(){
         sleep(1);
         setup();
     }
+    proceed++;
     put(DB_APP_STATE, prepareInsert(KEY_ADMIN_USERNAME, adminName));
     put(DB_APP_STATE, prepareInsert(KEY_ADMIN_PASSWORD, adminPassword));
     return 1;

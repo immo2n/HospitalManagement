@@ -8,7 +8,11 @@ int maxTries = 3;
 
 int auth(){
     system("cls");
-    tries++;
+    if(maxTries == tries){
+        printColored(ANSI_COLOR_YELLOW, "Invalid credentials! Maximum tries reached!\n");
+        sleep(1);
+        return 0;
+    }
     printColoredBold(ANSI_COLOR_GREEN, "\t\t\t\tWELCOME TO HOSPITAL MANAGEMENT\n\n");
     printColored(ANSI_COLOR_CYAN, "\t\t\t\t      Login to the system\n\n\n");
     printColored(ANSI_COLOR_BLUE, "Enter admin username: ");
@@ -33,14 +37,8 @@ int auth(){
         return 1;
     }
     else {
-        if(maxTries == tries){
-            printColored(ANSI_COLOR_YELLOW, "Invalid credentials! Maximum tries reached!\n");
-            sleep(1);
-            return 0;
-        }
-        else {
-            printColored(ANSI_COLOR_RED, "Invalid credentials!\n");
-        }
+        printColored(ANSI_COLOR_RED, "Invalid credentials!\n");
+        tries++;
         sleep(1);
         auth();
     }

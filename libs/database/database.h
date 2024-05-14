@@ -213,7 +213,6 @@ FILE *isOpened(char *docPath) {
 }
 
 Database openDocument(char *documentName) {
-    if(openedDocCount > 0) printColored(ANSI_COLOR_CYAN, "WARNING: Attempt to create multiple documents before closing! This may cause unexpected behaviour.\n");
     Database database;
     database.name = documentName;
     database.status = malloc(LOG_STATUS_MAX_SIZE * sizeof(char));

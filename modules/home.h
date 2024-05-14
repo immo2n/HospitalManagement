@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <conio.h>
+#include "addPatient.h"
 
 #define MAIN_MENU_OPTIONS 6
 
@@ -30,7 +31,7 @@ void home(){
             case 'w':
             case 72: //Up
                 if (selected > 1) selected--;
-                else selected = 6;
+                else selected = MAIN_MENU_OPTIONS;
                 break;
             case 'S':
             case 's':
@@ -41,13 +42,17 @@ void home(){
             case 32:
             case '\r': //Enter key
                 switch (selected) {
+                    case 1:
+                        //Add patient
+                        addPatient();
+                        break;
                     case 6:
-                    //Exit
-                    printColoredBold(ANSI_COLOR_RED, "\nLogged out!");
-                    sleep(1);
-                    system("cls");
-                    mainLooper = 0;
-                    break;
+                        //Exit
+                        printColoredBold(ANSI_COLOR_RED, "\nLogged out!");
+                        sleep(1);
+                        system("cls");
+                        mainLooper = 0;
+                        break;
                 }
         }
     }
