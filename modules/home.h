@@ -8,7 +8,7 @@
 void renderOptions(int selected){
     system("cls");
     printColoredBold(ANSI_COLOR_GREEN, "\t\t\t\tWELCOME TO HOSPITAL MANAGEMENT\n\n");
-    printColored(ANSI_COLOR_CYAN, "\t\t\t\t\t  Main Menu\n\n\n");
+    printColored(ANSI_COLOR_CYAN, "\t\t\t\t      Main Menu (Employee)\n\n\n");
 
     (selected == 1) ? printColoredBold(ANSI_COLOR_YELLOW, "\t\t\t             => Add Patient\n") : printColored(ANSI_COLOR_MAGENTA, "\t\t\t             -> Add Patient\n");
     (selected == 2) ? printColoredBold(ANSI_COLOR_YELLOW, "\t\t\t             => View Patients\n") : printColored(ANSI_COLOR_MAGENTA, "\t\t\t             -> View Patients\n");
