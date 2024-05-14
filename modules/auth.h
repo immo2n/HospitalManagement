@@ -26,24 +26,28 @@ int auth(){
         sleep(1);
         auth();
     }
-    printColored(ANSI_COLOR_BLUE, "Enter admin password: ");
-    scanf("%s", adminPassword);
-    if(strlen(adminPassword) < 4){
-        printColored(ANSI_COLOR_RED, "Invalid password for admin!");
-        sleep(1);
-        auth();
-    }
-    
-    DataCell username = get(DB_APP_STATE, KEY_ADMIN_USERNAME);
-    DataCell pass = get(DB_APP_STATE, KEY_ADMIN_PASSWORD);
-
-    if(strcmp(username.value, adminName) == 0 && strcmp(pass.value, adminPassword) == 0){
-        return 1;
-    }
     else {
-        printColored(ANSI_COLOR_RED, "Invalid credentials!\n");
-        tries++;
-        sleep(1);
-        auth();
+        printColored(ANSI_COLOR_BLUE, "Enter admin password: ");
+        scanf("%s", adminPassword);
+        if(strlen(adminPassword) < 4){
+            printColored(ANSI_COLOR_RED, "Invalid password for admin!");
+            sleep(1);
+            auth();
+        }
+        else {
+            DataCell username = get(DB_APP_STATE, KEY_ADMIN_USERNAME);
+            DataCell pass = get(DB_APP_STATE, KEY_ADMIN_PASSWORD);
+
+            if(strcmp(username.value, adminName) == 0 && strcmp(pass.value, adminPassword) == 0){
+                return 1;
+            }
+            else {
+                printColored(ANSI_COLOR_RED, "Invalid credentials!\n");
+                tries++;
+                sleep(1);
+                auth();
+                exit(0);
+            }
+        }
     }
 }

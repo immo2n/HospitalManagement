@@ -139,9 +139,7 @@ void addPatient()
             }
             else
             {
-                if(position < FORM_OPTIONS){
-                    printColored(ANSI_COLOR_MAGENTA, "Enter new value: ");
-                }
+                printColored(ANSI_COLOR_MAGENTA, "Enter new value: ");
                 switch (position){
                     case 1:
                         gets(name);
@@ -165,12 +163,8 @@ void addPatient()
                         gets(date);
                         break;
                 }
-                // Just go to the next one to bottom only
-                if (position < FORM_OPTIONS)
-                {
-                    position++;
-                    renderForm(position);
-                }
+                position++;
+                renderForm(position);
             }
         }
     } while (mainLooper);
