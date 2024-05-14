@@ -66,17 +66,30 @@ void renderForm(int position)
         printColored(ANSI_COLOR_GREEN, "\n[SUBMIT FORM]");
 
     if(position ==  FORM_OPTIONS)
-        printColoredBold(ANSI_COLOR_RED, "\n[CANCEL] [PRESS ENTER]\n");
+        printColoredBold(ANSI_COLOR_RED, "\n[CANCEL] [PRESS ENTER]\n\n");
     else
-        printColored(ANSI_COLOR_RED, "\n[CANCEL]\n");
+        printColored(ANSI_COLOR_RED, "\n[CANCEL]\n\n");
+}
+
+void resetForm()
+{
+    strcpy(name, "");
+    strcpy(age, "");
+    strcpy(phone, "");
+    strcpy(address, "");
+    strcpy(illness, "");
+    strcpy(doctorName, "");
+    strcpy(date, "");
 }
 
 void addPatient()
 {
-    system("cls");
+    //Reset form values
+    resetForm();
     int position = 1;
     int mainLooper = 1;
     char input;
+    system("cls");
     do
     {
         renderForm(position);
@@ -99,7 +112,6 @@ void addPatient()
             else
                 position = 1;
             break;
-        case 32:
         case '\r': // Enter key
             if (position == FORM_OPTIONS)
             {
@@ -109,35 +121,48 @@ void addPatient()
             }
             else if(position == FORM_OPTIONS - 1){
                 //Submit button
+                DataCell totalPatients = get(DB_PATIENTS, KEY_TOTAL_PATIENTS);
+                int total = 0;
+                if(NULL != totalPatients.value){
+                    total = atoi(totalPatients.value);
+                }
+                total++; // Increment the total patients
+                sprintf(totalPatients.value, "%d", total); // just to reuse the char array
+                char *patientData = (char *)malloc(500);
+                sprintf(patientData, "%s⟨·⟩%s⟨·⟩%s⟨·⟩%s⟨·⟩%s⟨·⟩%s⟨·⟩%s", name, age, phone, address, illness, doctorName, date);
+                put(DB_PATIENTS, prepareInsert(totalPatients.value, patientData));
+                put(DB_PATIENTS, prepareInsert(KEY_TOTAL_PATIENTS, totalPatients.value));
+                mainLooper = 0;
+                printColoredBold(ANSI_COLOR_GREEN, "Patient added successfully!\n");
+                sleep(1);
+                return;
             }
             else
             {
                 if(position < FORM_OPTIONS){
-                    printColored(ANSI_COLOR_MAGENTA, "\n\nEnter new value: ");
+                    printColored(ANSI_COLOR_MAGENTA, "Enter new value: ");
                 }
                 switch (position){
                     case 1:
-                        scanf("%s", name);
+                        gets(name);
                         break;
                     case 2:
-                        scanf("%s", age);
+                        gets(age);
                         break;
                     case 3:
-                        scanf("%s", phone);
+                        gets(phone);
                         break;
                     case 4:
-                        scanf("%s", address);
+                        gets(address);
                         break;
                     case 5:
-                        scanf("%s", illness);
+                        gets(illness);
                         break;
                     case 6:
-                        scanf("%s", doctorName);
+                        gets(doctorName);
                         break;
                     case 7:
-                        scanf("%s", date);
-                        break;
-                    default:
+                        gets(date);
                         break;
                 }
                 // Just go to the next one to bottom only

@@ -7,6 +7,10 @@ int tries = 0;
 int maxTries = 3;
 
 int auth(){
+    //Reset values
+    strcpy(adminName, "");
+    strcpy(adminPassword, "");
+    tries = 0;
     system("cls");
     if(maxTries == tries){
         printColored(ANSI_COLOR_YELLOW, "Invalid credentials! Maximum tries reached!\n");

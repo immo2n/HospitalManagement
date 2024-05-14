@@ -5,6 +5,9 @@
 char adminName[50], adminPassword[100];
 
 int setup(){
+    //Reset values
+    strcpy(adminName, "");
+    strcpy(adminPassword, "");
     int proceed = 0;
     system("cls");
     printColoredBold(ANSI_COLOR_GREEN, "\t\t\t\tWELCOME TO HOSPITAL MANAGEMENT\n\n");
