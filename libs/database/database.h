@@ -84,6 +84,7 @@ void cacheDocument(FILE *file, Database *database, char *filepath){
 DataCell fetch(Database *database, char *key){
     DataCell dataCell;
     strcpy(dataCell.key, key);
+    strcpy(dataCell.value, PREFIX_NULL_STRING);
     /* Here we are doing Linear Search, not efficient at all...
     we must do something about it in future! */
     //Prepare line for key, value, = (delimeter) and \n
@@ -109,6 +110,30 @@ DataCell fetch(Database *database, char *key){
         }
     }
     return dataCell;
+}
+
+DataCell *fetchAll(Database *database, int maxEntries){
+    if(database->file == NULL) return NULL;
+    DataCell *dataCells = malloc(sizeof(DataCell) * maxEntries);
+    if(dataCells == NULL) return NULL;
+    int i = 0;
+    char line[MAX_KEY_LENGTH + MAX_VALUE_LENGTH + 2];
+    char *stored_key, *stored_value;
+    while (fgets(line, sizeof(line), database->file) != NULL) {
+        stored_key = strtok(line, "=");
+        if (stored_key == NULL) {
+            continue; //Invalid line, skip
+        }
+        stored_value = strtok(NULL, "\n");
+        if (stored_value == NULL) {
+            continue; //Invalid line, skip
+        }
+        strcpy(dataCells[i].key, stored_key);
+        strcpy(dataCells[i].value, stored_value);
+        i++;
+        if(i >= maxEntries) break;
+    }
+    return dataCells;
 }
 
 int delete(Database *database, char *key) {
@@ -213,7 +238,6 @@ FILE *isOpened(char *docPath) {
 }
 
 Database openDocument(char *documentName) {
-    if(openedDocCount > 0) printColored(ANSI_COLOR_CYAN, "WARNING: Attempt to create multiple documents before closing! This may cause unexpected behaviour.\n");
     Database database;
     database.name = documentName;
     database.status = malloc(LOG_STATUS_MAX_SIZE * sizeof(char));
@@ -288,6 +312,20 @@ DataCell get(char *documentName, char *key){
     }
     closeConnection();
     return dataCell;
+}
+
+DataCell *getAsLines(char *documentName, int maxEntries){
+    if(!openConnection()){
+        printf("FATAL ERROR: Could not open database!\n");
+        return NULL;
+    }
+    DataCell *dataCells;
+    Database db = openDocument(documentName);
+    if(strcmp(db.status, "OK") == 0){
+        dataCells = fetchAll(&db, maxEntries);
+    }
+    closeConnection();
+    return dataCells;
 }
 
 int put(char *documentName, DataCell dataCell){

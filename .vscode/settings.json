@@ -15,7 +15,10 @@
         "mainmenu.h": "c",
         "home.h": "c",
         "addpatient.h": "c",
-        "conio.h": "c"
+        "conio.h": "c",
+        "stat.h": "c",
+        "viewpatients.h": "c",
+        "keysets.h": "c"
     },
     "cSpell.words": [
         "cgpa",

@@ -129,7 +129,7 @@ void addPatient()
                 total++; // Increment the total patients
                 sprintf(totalPatients.value, "%d", total); // just to reuse the char array
                 char *patientData = (char *)malloc(500);
-                sprintf(patientData, "%s⟨·⟩%s⟨·⟩%s⟨·⟩%s⟨·⟩%s⟨·⟩%s⟨·⟩%s", name, age, phone, address, illness, doctorName, date);
+                sprintf(patientData, "%s·%s·%s·%s·%s·%s·%s", name, age, phone, address, illness, doctorName, date);
                 put(DB_PATIENTS, prepareInsert(totalPatients.value, patientData));
                 put(DB_PATIENTS, prepareInsert(KEY_TOTAL_PATIENTS, totalPatients.value));
                 mainLooper = 0;

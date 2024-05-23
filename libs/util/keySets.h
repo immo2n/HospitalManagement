@@ -10,3 +10,4 @@
 
 //Prefix values
 #define PREFIX_DONE "done"
+#define PREFIX_NULL_STRING "NULL"

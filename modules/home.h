@@ -2,7 +2,9 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <conio.h>
+
 #include "addPatient.h"
+#include "viewPatients.h"
 
 #define MAIN_MENU_OPTIONS 6
 
@@ -45,6 +47,9 @@ void home(){
                     case 1:
                         //Add patient
                         addPatient();
+                        break;
+                    case 2:
+                        viewPatients();
                         break;
                     case 6:
                         //Exit

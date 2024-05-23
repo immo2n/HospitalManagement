@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <sys/stat.h>
 
 char *getWorkingDir()
 {
@@ -33,5 +34,14 @@ char *getDataDir()
     }
     strcpy(dataDir, workingDir);
     strcat(dataDir, "/data");
+    struct stat sb;
+    if (!(stat(dataDir, &sb) == 0 && S_ISDIR(sb.st_mode))) {
+        if (mkdir(dataDir) == -1)
+        {
+            printf("ERROR: Unable to create data directory: %s\n", strerror(errno));
+            free(dataDir);
+            return NULL;
+        }
+    }
     return dataDir;
 }
