@@ -3,6 +3,7 @@
 #include <unistd.h>
 
 #define FORM_OPTIONS 9
+#define DELIMITER "·"
 
 char name[50];
 char age[5];
@@ -60,32 +61,80 @@ void renderForm(int position)
     else
         printf("%s\n", date);
 
-    if(position ==  8)
+    if (position == 8)
         printColoredBold(ANSI_COLOR_GREEN, "\n[SUBMIT FORM] [PRESS ENTER]");
     else
         printColored(ANSI_COLOR_GREEN, "\n[SUBMIT FORM]");
 
-    if(position ==  FORM_OPTIONS)
+    if (position == FORM_OPTIONS)
         printColoredBold(ANSI_COLOR_RED, "\n[CANCEL] [PRESS ENTER]\n\n");
     else
         printColored(ANSI_COLOR_RED, "\n[CANCEL]\n\n");
 }
 
-void resetForm()
+void resetForm(DataCell *patient)
 {
-    strcpy(name, "");
-    strcpy(age, "");
-    strcpy(phone, "");
-    strcpy(address, "");
-    strcpy(illness, "");
-    strcpy(doctorName, "");
-    strcpy(date, "");
+    if (NULL != patient)
+    {
+        char *line = strdup(patient->value);
+        if (line == NULL)
+        {
+            return;
+        }
+
+        char *token;
+        int column = 0;
+
+        token = strtok(line, DELIMITER);
+        while (token != NULL)
+        {
+            switch (column)
+            {
+            case 0:
+                strcpy(name, token);
+                break;
+            case 1:
+                strcpy(age, token);
+                break;
+            case 2:
+                strcpy(phone, token);
+                break;
+            case 3:
+                strcpy(address, token);
+                break;
+            case 4:
+                strcpy(illness, token);
+                break;
+            case 5:
+                strcpy(doctorName, token);
+                break;
+            case 6:
+                strcpy(date, token);
+                break;
+            }
+            column++;
+
+            token = strtok(NULL, DELIMITER);
+        }
+        free(line);
+    }
+
+    else
+    {
+        strcpy(name, "");
+        strcpy(age, "");
+        strcpy(phone, "");
+        strcpy(address, "");
+        strcpy(illness, "");
+        strcpy(doctorName, "");
+        strcpy(date, "");
+    }
 }
 
-void addPatient()
+void addPatient(DataCell *patient)
 {
-    //Reset form values
-    resetForm();
+    // Reset form values
+    resetForm(patient);
     int position = 1;
     int mainLooper = 1;
     char input;
@@ -116,53 +165,58 @@ void addPatient()
         case '\r': // Enter key
             if (position == FORM_OPTIONS)
             {
-                //Cancel button
+                // Cancel button
                 mainLooper = 0;
                 return;
             }
-            else if(position == FORM_OPTIONS - 1){
-                //Submit button
+            else if (position == FORM_OPTIONS - 1)
+            {
+                // Submit button
                 DataCell totalPatients = get(DB_PATIENTS, KEY_TOTAL_PATIENTS);
                 int total = 0;
-                if(NULL != totalPatients.value){
+                if (NULL != totalPatients.value)
+                {
                     total = atoi(totalPatients.value);
                 }
-                total++; // Increment the total patients
+                if(NULL == patient) total++;                                   // Increment the total patients
                 sprintf(totalPatients.value, "%d", total); // just to reuse the char array
                 char *patientData = (char *)malloc(500);
                 sprintf(patientData, "%s·%s·%s·%s·%s·%s·%s", name, age, phone, address, illness, doctorName, date);
-                put(DB_PATIENTS, prepareInsert(totalPatients.value, patientData));
+                if(NULL == patient) put(DB_PATIENTS, prepareInsert(totalPatients.value, patientData));
+                else put(DB_PATIENTS, prepareInsert(patient->key, patientData));
                 put(DB_PATIENTS, prepareInsert(KEY_TOTAL_PATIENTS, totalPatients.value));
                 mainLooper = 0;
-                printColoredBold(ANSI_COLOR_GREEN, "Patient added successfully!\n");
+                if(NULL == patient) printColoredBold(ANSI_COLOR_GREEN, "Patient added successfully!\n");
+                else printColoredBold(ANSI_COLOR_GREEN, "Patient updated successfully!\n");
                 sleep(1);
                 return;
             }
             else
             {
                 printColored(ANSI_COLOR_MAGENTA, "Enter new value: ");
-                switch (position){
-                    case 1:
-                        gets(name);
-                        break;
-                    case 2:
-                        gets(age);
-                        break;
-                    case 3:
-                        gets(phone);
-                        break;
-                    case 4:
-                        gets(address);
-                        break;
-                    case 5:
-                        gets(illness);
-                        break;
-                    case 6:
-                        gets(doctorName);
-                        break;
-                    case 7:
-                        gets(date);
-                        break;
+                switch (position)
+                {
+                case 1:
+                    gets(name);
+                    break;
+                case 2:
+                    gets(age);
+                    break;
+                case 3:
+                    gets(phone);
+                    break;
+                case 4:
+                    gets(address);
+                    break;
+                case 5:
+                    gets(illness);
+                    break;
+                case 6:
+                    gets(doctorName);
+                    break;
+                case 7:
+                    gets(date);
+                    break;
                 }
                 position++;
                 renderForm(position);

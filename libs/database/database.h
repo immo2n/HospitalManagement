@@ -340,3 +340,16 @@ int put(char *documentName, DataCell dataCell){
     closeConnection();
     return 1;
 }
+
+int pop(char *documentName, char *key){
+    if(!openConnection()){
+        printf("FATAL ERROR: Could not open database!\n");
+        return 0;
+    }
+    Database db = openDocument(documentName);
+    if(strcmp(db.status, "OK") == 0){
+        delete(&db, key);
+    }
+    closeConnection();
+    return 1;
+}
