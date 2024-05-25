@@ -49,7 +49,13 @@ void home(){
                         addPatient();
                         break;
                     case 2:
-                        viewPatients();
+                        viewPatients(NULL);
+                        break;
+                    case 3:
+                        printColoredBold(ANSI_COLOR_GREEN, "Enter any deatils to search: ");
+                        char key[100];
+                        scanf("%s", key);
+                        viewPatients(key);
                         break;
                     case 6:
                         //Exit

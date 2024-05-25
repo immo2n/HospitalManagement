@@ -29,23 +29,32 @@ void printRow(char **columns, int columnCount, int *columnWidths)
     printf("\n");
 }
 
-void render()
+void render(char *searchKey)
 {
     system("cls");
     printColoredBold(ANSI_COLOR_GREEN, "\t\t\t\tWELCOME TO HOSPITAL MANAGEMENT\n\n");
-    printColored(ANSI_COLOR_CYAN, "\t\t\t\t        Patients List\n\n\n");
+
+    if (searchKey == NULL)
+        printColored(ANSI_COLOR_CYAN, "\t\t\t\t        Patients List\n\n\n");
+    else
+        printColored(ANSI_COLOR_CYAN, "\t\t\t\t        Search patients\n\n\n");
 
     // To show total patients
     DataCell totalPatients = get(DB_PATIENTS, KEY_TOTAL_PATIENTS);
     if (strcmp(totalPatients.value, PREFIX_NULL_STRING) == 0)
     {
-        printColored(ANSI_COLOR_RED, "No patients found!");
+        printColored(ANSI_COLOR_RED, "No patients data stored!");
     }
     else
     {
         printColored(ANSI_COLOR_YELLOW, "TOTAL PATIENTS: ");
         printColored(ANSI_COLOR_MAGENTA, totalPatients.value);
+        if(searchKey != NULL){
+            printColoredBold(ANSI_COLOR_YELLOW, "\nSEARCHING FOR: ");
+            printColored(ANSI_COLOR_MAGENTA, searchKey);
+        }
         printf("\n\n");
+        
         DataCell *cells = getAsLines(DB_PATIENTS, atoi(totalPatients.value));
 
         char *headers[] = {"Id", "Name", "Age", "Phone Number", "Address", "Illness", "Doctor", "Date"};
@@ -60,6 +69,13 @@ void render()
         for (int i = 0; i < atoi(totalPatients.value); ++i)
         {
             char *line = strdup(cells[i].value);
+
+            // For search mode
+            if (searchKey != NULL && strstr(line, searchKey) == NULL){
+                free(line);
+                continue;
+            }
+
             char *token;
             int column = 0;
             token = strtok(line, DELIMITER);
@@ -80,9 +96,18 @@ void render()
         printRow(headers, columnCount, columnWidths);
         printSeparator(columnCount, columnWidths);
 
+        int counter = 0;
+
         for (int i = 0; i < atoi(totalPatients.value); ++i)
         {
             char *line = strdup(cells[i].value);
+
+            // For search mode
+            if (searchKey != NULL && strstr(line, searchKey) == NULL){
+                free(line);
+                continue;
+            }
+
             char *token;
             int column = 0;
 
@@ -106,6 +131,11 @@ void render()
             printf("|\n");
 
             free(line);
+            ++counter;
+        }
+
+        if(counter == 0){
+            printColored(ANSI_COLOR_RED, "No patients found!\n");
         }
 
         printSeparator(columnCount, columnWidths);
@@ -116,13 +146,13 @@ void render()
     printColoredBold(ANSI_COLOR_RED, "\n[GO BACK] [PRESS ENTER]\n\n");
 }
 
-void viewPatients()
+void viewPatients(char *searchKey)
 {
     system("cls");
+    render(searchKey);
     char input;
     do
     {
-        render();
         input = getch();
         switch (input)
         {
