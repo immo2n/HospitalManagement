@@ -112,6 +112,7 @@ void addPatient()
             else
                 position = 1;
             break;
+        case 32:
         case '\r': // Enter key
             if (position == FORM_OPTIONS)
             {
