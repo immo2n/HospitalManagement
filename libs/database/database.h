@@ -218,7 +218,7 @@ int insert(Database *database, DataCell dataCell){
         int writeResult = fprintf(database->file, "%s=%s\n", dataCell.key, dataCell.value);
         if (writeResult >= 0) {
             /*Flashing is needed for fprintf or, fwrite otherwise
-            immediate insert request will be by the OS(depends).
+            immediate insert request will be ignored by the OS(depends).
             So, we force flash the data to disk even if its small
             */
             fflush(database->file); //Flush the file
