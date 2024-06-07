@@ -13,14 +13,14 @@ void renderMain(int selected)
     system("cls");
     printColoredBold(ANSI_COLOR_GREEN, "\t\t\t\tWELCOME TO HOSPITAL MANAGEMENT\n\n");
     printColored(ANSI_COLOR_CYAN, "\t\t\t\t Select an option to continue\n\n\n");
-    printf("\t\t\t             *** Patient's Options ***\n");
-    (selected == 1) ? printColoredBold(ANSI_COLOR_YELLOW, "\t\t\t              => View doctors\n") : printColored(ANSI_COLOR_MAGENTA, "\t\t\t              -> View doctors\n");
-    (selected == 2) ? printColoredBold(ANSI_COLOR_YELLOW, "\t\t\t              => Search your record\n") : printColored(ANSI_COLOR_MAGENTA, "\t\t\t              -> Search your record\n");
-    printf("\t\t\t             *** Doctor's Options ***\n");
-    (selected == 3) ? printColoredBold(ANSI_COLOR_YELLOW, "\t\t\t              => View appointments\n") : printColored(ANSI_COLOR_MAGENTA, "\t\t\t              -> View appointments\n");
-    printf("\t\t\t             *** Admin Options ***\n");
-    (selected == 4) ? printColoredBold(ANSI_COLOR_YELLOW, "\t\t\t              => Login as Admin\n") : printColored(ANSI_COLOR_MAGENTA, "\t\t\t              -> Login as Admin\n");
-    (selected == 5) ? printColoredBold(ANSI_COLOR_YELLOW, "\t\t\t              => Exit App\n") : printColored(ANSI_COLOR_MAGENTA, "\t\t\t              -> Exit App\n");
+    printf("\t\t\t         *** Patient's Options ***\n");
+    (selected == 1) ? printColoredBold(ANSI_COLOR_YELLOW, "\t\t\t            => View doctors\n") : printColored(ANSI_COLOR_MAGENTA, "\t\t\t            -> View doctors\n");
+    (selected == 2) ? printColoredBold(ANSI_COLOR_YELLOW, "\t\t\t            => Search your record\n") : printColored(ANSI_COLOR_MAGENTA, "\t\t\t            -> Search your record\n");
+    printf("\t\t\t         *** Doctor's Options ***\n");
+    (selected == 3) ? printColoredBold(ANSI_COLOR_YELLOW, "\t\t\t            => View appointments\n") : printColored(ANSI_COLOR_MAGENTA, "\t\t\t            -> View appointments\n");
+    printf("\t\t\t         *** Admin Options ***\n");
+    (selected == 4) ? printColoredBold(ANSI_COLOR_YELLOW, "\t\t\t            => Login as Admin\n") : printColored(ANSI_COLOR_MAGENTA, "\t\t\t            -> Login as Admin\n");
+    (selected == 5) ? printColoredBold(ANSI_COLOR_YELLOW, "\t\t\t            => Exit App\n") : printColored(ANSI_COLOR_MAGENTA, "\t\t\t            -> Exit App\n");
 }
 
 int main()
@@ -59,13 +59,20 @@ int main()
                 {
                 case 1:
                     // View doctors
-
+                    viewPatients(NULL);
                     break;
                 case 2:
                     // Search patient with id
+                    printColoredBold(ANSI_COLOR_GREEN, "Enter any details to search: ");
+                    char key[100];
+                    scanf("%s", key);
+                    viewPatients(key);
                     break;
                 case 3:
                     // Search patient with doctor
+                    printColoredBold(ANSI_COLOR_GREEN, "Enter a doctor's name: ");
+                    scanf("%s", key);
+                    viewPatients(key);
                     break;
                 case 4:
                     if (auth(1))
